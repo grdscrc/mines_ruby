@@ -53,7 +53,7 @@ class MineField
   end
 
   def valid_move?(x, y)
-    x.in?(0...height) && y.in?(0...length)
+    x.between?(0, height) && y.between?(0, length) && !@mask[x][y]
   end
 
   def height

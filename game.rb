@@ -12,7 +12,10 @@ begin
     input = $_.strip
     next if input.empty?
     coords = input.split(';').first(2).map(&:to_i)
-    next if coords.length != 2
+    if coords.length != 2 || minefield.valid_move?(*coords)
+      MineFieldDisplay.say 'Invalid move ; syntax is "<x>;<y>"'
+      next
+    end
 
     minefield.unmask(*coords)
 
