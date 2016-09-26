@@ -44,13 +44,34 @@ class MineField
     # TODO : unmask adjacent empty cells if empty&neighbourless cell
   end
 
+  def remove_mask
+    @mask.map! { |line|
+      line.map {
+        false
+      }
+    }
+  end
+
   def over?
-    @mask.all?(&:none?)
+    scan_field(false).all? { |x, y|
+      @mask[x][y] == false
+    }
   end
 
   def mine_at?(x, y)
     @field[x][y]
   end
+
+  def scan_field(with_mines = true)
+    cells = []
+    @field.each_with_index do |line, x|
+      line.each_with_index do |mined, y|
+        cells << [x, y] if (with_mines && mined) || (!with_mines && !mined)
+      end
+    end
+    cells
+  end
+
 
   def valid_move?(x, y)
     x.between?(0, height) && y.between?(0, length) && !@mask[x][y]

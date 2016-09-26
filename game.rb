@@ -27,4 +27,6 @@ rescue Interrupt
   MineFieldDisplay.say 'Interrupt signal received ; bye !'
 end
 
+minefield.remove_mask
+MineFieldDisplay.display(minefield)
 MineFieldDisplay.say 'Game over'
