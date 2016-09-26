@@ -8,28 +8,35 @@ class MineField
   attr_reader :field
   attr_reader :mask
 
-  def initialize
+  def initialize(level = 'easy', mines_quota = nil)
+    @size = case level
+      when 'easy'   then EASY_SIZE
+      when 'medium' then MEDIUM_SIZE
+      when 'hard'   then HARD_SIZE
+    end
+    @mines_quota = mines_quota || @size
     set_field
     set_mines
     set_mask
   end
 
   def set_field
-    @field = (0...EASY_SIZE).map do
-      (0...EASY_SIZE).map do
+    @field = (0...@size).map do
+      (0...@size).map do
         false
       end
     end
   end
 
   def set_mines
-    quota = 10
+    quota = @mines_quota
     while quota.nonzero?
-      @field.each do |line|
-        line.map! do |mined|
+      @field.each_with_index do |line, x|
+        line.each_with_index do |mined, y|
           break if mined || quota.zero?
           mined = MINE_PROBABILITY.sample
           quota -= 1 if mined
+          @field[x][y] = mined
         end
       end
     end
