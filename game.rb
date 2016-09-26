@@ -21,7 +21,7 @@ begin
     break if minefield.mine_at?(*coords) || minefield.over?
   end
 rescue Interrupt
-  puts ' signal received ; bye !'
+  MineFieldDisplay.say 'Interrupt signal received ; bye !'
 end
 
-puts 'Game over'
+MineFieldDisplay.say 'Game over'
