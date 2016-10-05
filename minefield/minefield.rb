@@ -1,3 +1,6 @@
+class SteppedOnMine < Exception ; end
+class Win < Exception ; end
+
 class MineField
   EASY_SIZE = 10
   MEDIUM_SIZE = 50
@@ -49,6 +52,12 @@ class MineField
   def unmask(x, y, discover = true)
     @mask[x][y] = false
     MineFieldHinter.discover_around(self, x, y) if discover
+  end
+
+  def play_at(x,y)
+    unmask(x, y)
+    raise SteppedOnMine if mine_at?(x,y)
+    raise Win if over?
   end
 
   def remove_mask

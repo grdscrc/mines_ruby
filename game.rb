@@ -21,16 +21,17 @@ begin
       next
     end
 
-    minefield.unmask(*coords)
+    minefield.play_at(*coords)
 
     MineFieldDisplay.display(minefield)
-
-    break if minefield.mine_at?(*coords) || minefield.over?
   end
+rescue SteppedOnMine
+  MineFieldDisplay.say '💥'
+rescue Win
+  MineFieldDisplay.say '🎉'
 rescue Interrupt
-  MineFieldDisplay.say 'Interrupt signal received ; bye !'
+  MineFieldDisplay.say '👋'
 end
 
 minefield.remove_mask
 MineFieldDisplay.display(minefield)
-MineFieldDisplay.say 'Game over'
