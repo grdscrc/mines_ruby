@@ -16,7 +16,7 @@ begin
     next if input.empty?
     match = input.match(SYNTAX_REGEX)
     coords = match.captures.map(&:to_i) if match
-    if match.nil? || minefield.valid_move?(*coords)
+    if match.nil? || !minefield.valid_move?(*coords)
       MineFieldDisplay.say 'Invalid move ; syntax is "<x> <y>"'
       next
     end
