@@ -14,8 +14,9 @@ begin
   while gets
     input = $_.strip
     next if input.empty?
-    coords = input.match(SYNTAX_REGEX).captures.map(&:to_i)
-    if coords.length != 2 || minefield.valid_move?(*coords)
+    match = input.match(SYNTAX_REGEX)
+    coords = match.captures.map(&:to_i) if match
+    if match.nil? || minefield.valid_move?(*coords)
       MineFieldDisplay.say 'Invalid move ; syntax is "<x> <y>"'
       next
     end
