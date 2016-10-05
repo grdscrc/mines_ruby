@@ -46,9 +46,9 @@ class MineField
     @mask = @field.map { |line| line.map { true } }
   end
 
-  def unmask(x, y)
+  def unmask(x, y, discover = true)
     @mask[x][y] = false
-    # TODO : unmask adjacent empty cells if empty&neighbourless cell
+    MineFieldHinter.discover_around(self, x, y) if discover
   end
 
   def remove_mask
@@ -67,6 +67,10 @@ class MineField
 
   def mine_at?(x, y)
     @field[x][y]
+  end
+
+  def mask_at?(x, y)
+    @mask[x][y]
   end
 
   def scan_field(with_mines = true)

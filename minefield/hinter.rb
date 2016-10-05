@@ -41,4 +41,24 @@ class MineFieldHinter
     edges << :right  if y == minefield.length - 1
     edges
   end
+
+  def self.masked_neighbourhood(minefield, x, y)
+    neighbours(minefield, x, y).select do |neighbour_x, neighbour_y|
+      minefield.mask_at?(neighbour_x, neighbour_y)
+    end
+  end
+
+  # Unmask around cell
+  def self.discover_around(minefield, x, y)
+    return if minefield.mine_at?(x,y) || hint(minefield, x, y).nonzero?
+
+    masked_neighbourhood(minefield, x, y).each do |neighbour_x, neighbour_y|
+      minefield.unmask(neighbour_x, neighbour_y, false)
+      # TODO : discover_around(minefield, neighbour_x, neighbour_y)
+    end
+  end
+
+  def self.scan_for_coords(coords, array)
+    array.map(&:join).include?(coords.join)
+  end
 end
