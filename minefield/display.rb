@@ -4,7 +4,7 @@ require File.join(File.dirname(__FILE__), 'hinter')
 
 # Uses puts to display
 class MineFieldDisplay
-  EMOJIS = { mine: '💣', mask: '🀫', kaboom: '💥', tada: '🎉', bye: '👋' }
+  EMOJIS = { mine: '💣', mask: '🀫', kaboom: '💥', tada: '🎉', bye: '👋' }.freeze
 
   def self.display(minefield)
     puts '  ' + (0...minefield.length).to_a.join(' ')
