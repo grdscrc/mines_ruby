@@ -54,7 +54,7 @@ class MineFieldHinter
 
     masked_neighbourhood(minefield, x, y).each do |neighbour_x, neighbour_y|
       minefield.unmask(neighbour_x, neighbour_y, false)
-      # TODO : discover_around(minefield, neighbour_x, neighbour_y)
+      discover_around(minefield, neighbour_x, neighbour_y)
     end
   end
 
