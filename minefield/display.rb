@@ -2,14 +2,20 @@
 
 require File.join(File.dirname(__FILE__), 'hinter')
 
-# Uses puts to display
 class MineFieldDisplay
   EMOJIS = { mine: '💣', mask: '🀫', kaboom: '💥', tada: '🎉', bye: '👋' }.freeze
 
-  def self.display(minefield)
-    puts '  ' + (0...minefield.length).to_a.join(' ')
+  def initialize(&display_strategy)
+    @display_strategy = display_strategy
+    # Uses puts to display by default
+    @display_strategy = proc { |str| puts(str) } if display_strategy.nil?
+  end
+
+  def display(minefield)
+    @display_strategy.call('  ' + (0...minefield.length).to_a.join(' '))
+
     minefield.field.each_with_index{|line, x|
-      puts x.to_s + ' ' + line.each_with_index.map{|mined, y|
+      @display_strategy.call(x.to_s + ' ' + line.each_with_index.map{|mined, y|
         if minefield.mask[x][y]
           EMOJIS[:mask]
         elsif mined
@@ -17,23 +23,23 @@ class MineFieldDisplay
         else
           MineFieldHinter.hint(minefield, x, y)
         end
-      }.join(' ')
+      }.join(' '))
     }
   end
 
-  def self.say(something)
-    puts something
+  def say(something)
+    @display_strategy.call something
   end
 
-  def self.explode
-    puts EMOJIS[:kaboom]
+  def explode
+    @display_strategy.call EMOJIS[:kaboom]
   end
 
-  def self.congratulate
-    puts EMOJIS[:tada]
+  def congratulate
+    @display_strategy.call EMOJIS[:tada]
   end
 
-  def self.wave_bye
-    puts EMOJIS[:bye]
+  def wave_bye
+    @display_strategy.call EMOJIS[:bye]
   end
 end
