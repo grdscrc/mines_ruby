@@ -26,11 +26,11 @@ begin
     MineFieldDisplay.display(minefield)
   end
 rescue SteppedOnMine
-  MineFieldDisplay.say '💥'
+  MineFieldDisplay.explode
 rescue Win
-  MineFieldDisplay.say '🎉'
+  MineFieldDisplay.congratulate
 rescue Interrupt
-  MineFieldDisplay.say '👋'
+  MineFieldDisplay.wave_bye
 end
 
 minefield.remove_mask
