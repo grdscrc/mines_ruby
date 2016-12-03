@@ -51,7 +51,7 @@ class MineField
 
   def unmask(x, y, discover = true)
     @mask[x][y] = false
-    MineFieldHinter.discover_around(self, x, y) if discover
+    Hinter.discover_around(self, x, y) if discover
   end
 
   def play_at(x,y)

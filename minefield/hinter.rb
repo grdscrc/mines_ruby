@@ -1,4 +1,4 @@
-class MineFieldHinter
+class Hinter
 
   # Returns number of adjacent mines
   def self.hint(minefield, x, y)

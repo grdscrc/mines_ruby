@@ -7,10 +7,10 @@ require File.join(File.dirname(__FILE__), 'minefield/display')
 SYNTAX_REGEX = /(\d+)\D+(\d+)/
 
 minefield = MineField.new
-display = MineFieldDisplay.new
+display = Display.new(minefield)
 
 begin
-  display.display(minefield)
+  display.refresh
 
   while gets
     input = $_.strip
@@ -18,13 +18,13 @@ begin
     match = input.match(SYNTAX_REGEX)
     coords = match.captures.map(&:to_i) if match
     if match.nil? || !minefield.valid_move?(*coords)
-      display.say 'Invalid move ; syntax is "<x> <y>"'
+      display.warn_error
       next
     end
 
     minefield.play_at(*coords)
 
-    display.display(minefield)
+    display.refresh
   end
 rescue SteppedOnMine
   display.explode
@@ -35,4 +35,4 @@ rescue Interrupt
 end
 
 minefield.remove_mask
-display.display(minefield)
+display.refresh
