@@ -7,6 +7,7 @@ class Display
 
   def initialize(minefield)
     @minefield = minefield
+    @hintfield = Hinter.new(@minefield)
   end
 
   def refresh
@@ -19,7 +20,7 @@ class Display
         elsif mined
           EMOJIS[:mine]
         else
-          Hinter.hint(@minefield, x, y)
+          @hintfield.hint(x, y)
         end
       }.join(' '))
     }

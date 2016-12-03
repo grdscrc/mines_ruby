@@ -49,9 +49,8 @@ class MineField
     @mask = @field.map { |line| line.map { true } }
   end
 
-  def unmask(x, y, discover = true)
+  def unmask(x, y)
     @mask[x][y] = false
-    Hinter.discover_around(self, x, y) if discover
   end
 
   def play_at(x,y)
