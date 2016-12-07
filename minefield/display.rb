@@ -15,7 +15,7 @@ class Display
   end
 
   def refresh
-    puts('  ' + (0...@minefield.length).to_a.join(' '))
+    puts('  ' + (0...@minefield.length).to_a.join(' ') + ' y')
 
     @minefield.field.each_with_index{|line, x|
       puts(x.to_s + ' ' + line.each_with_index.map{|mined, y|
@@ -28,6 +28,7 @@ class Display
         end
       }.join(' '))
     }
+    puts('x')
   end
 
   def warn_error
