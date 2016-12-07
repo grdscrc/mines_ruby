@@ -68,13 +68,13 @@ class Hinter
     end
   end
 
-  # Unmask around cell
+  # Recursively unmask around unmined & 0-hinted cell
   def discover_around(x, y)
     return if @minefield.mine_at?(x, y) || hint(x, y).nonzero?
 
-    masked_neighbourhood(x, y).each do |neighbour_x, neighbour_y|
-      @minefield.unmask(neighbour_x, neighbour_y, false)
-      discover_around(@minefield, neighbour_x, neighbour_y)
+    masked_neighbourhood(x, y).each do |neighbour|
+      @minefield.unmask(*neighbour)
+      discover_around(*neighbour)
     end
   end
 

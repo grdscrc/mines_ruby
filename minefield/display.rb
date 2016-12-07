@@ -10,6 +10,10 @@ class Display
     @hintfield = Hinter.new(@minefield)
   end
 
+  def signal_move(x, y)
+    @hintfield.discover_around(x, y)
+  end
+
   def refresh
     puts('  ' + (0...@minefield.length).to_a.join(' '))
 

@@ -23,6 +23,7 @@ begin
     end
 
     minefield.play_at(*coords)
+    display.signal_move(*coords)
 
     display.refresh
   end
