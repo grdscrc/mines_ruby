@@ -1,5 +1,5 @@
-class SteppedOnMine < Exception ; end
-class Win < Exception ; end
+class SteppedOnMine < RuntimeError; end
+class Win < RuntimeError; end
 
 class MineField
   EASY_SIZE = 10
@@ -13,10 +13,10 @@ class MineField
 
   def initialize(level = 'easy', mines_quota = nil)
     @size = case level
-      when 'easy'   then EASY_SIZE
-      when 'medium' then MEDIUM_SIZE
-      when 'hard'   then HARD_SIZE
-    end
+            when 'easy'   then EASY_SIZE
+            when 'medium' then MEDIUM_SIZE
+            when 'hard'   then HARD_SIZE
+            end
     @mines_quota = mines_quota || @size
     set_field
     set_mines
@@ -37,9 +37,8 @@ class MineField
       @field.each_with_index do |line, x|
         line.each_with_index do |mined, y|
           break if mined || quota.zero?
-          mined = MINE_PROBABILITY.sample
-          quota -= 1 if mined
-          @field[x][y] = mined
+          @field[x][y] = MINE_PROBABILITY.sample
+          quota -= 1 if @field[x][y]
         end
       end
     end
@@ -53,24 +52,24 @@ class MineField
     @mask[x][y] = false
   end
 
-  def play_at(x,y)
+  def play_at(x, y)
     unmask(x, y)
-    raise SteppedOnMine if mine_at?(x,y)
+    raise SteppedOnMine if mine_at?(x, y)
     raise Win if over?
   end
 
   def remove_mask
-    @mask.map! { |line|
-      line.map {
+    @mask.map! do |line|
+      line.map do
         false
-      }
-    }
+      end
+    end
   end
 
   def over?
-    scan_field(false).all? { |x, y|
+    scan_field(false).all? do |x, y|
       @mask[x][y] == false
-    }
+    end
   end
 
   def mine_at?(x, y)
@@ -90,7 +89,6 @@ class MineField
     end
     cells
   end
-
 
   def valid_move?(x, y)
     x.between?(0, height) && y.between?(0, length)

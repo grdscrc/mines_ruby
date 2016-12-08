@@ -17,18 +17,22 @@ class Display
   def refresh
     puts('  ' + (0...@minefield.length).to_a.join(' ') + ' y')
 
-    @minefield.field.each_with_index{|line, x|
-      puts(x.to_s + ' ' + line.each_with_index.map{|mined, y|
-        if @minefield.mask[x][y]
-          EMOJIS[:mask]
-        elsif mined
-          EMOJIS[:mine]
-        else
-          @hintfield.hint(x, y)
-        end
-      }.join(' '))
-    }
+    @minefield.field.each_with_index do |line, x|
+      puts(x.to_s + ' ' + line.each_with_index.map do |mined, y|
+        choose_icon(x, y, mined)
+      end.join(' '))
+    end
     puts('x')
+  end
+
+  def choose_icon(x, y, mined)
+    if @minefield.mask[x][y]
+      EMOJIS[:mask]
+    elsif mined
+      EMOJIS[:mine]
+    else
+      @hintfield.hint(x, y)
+    end
   end
 
   def warn_error

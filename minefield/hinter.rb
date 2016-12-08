@@ -1,5 +1,4 @@
 class Hinter
-
   attr_reader :field
 
   def initialize(minefield)
